@@ -164,9 +164,10 @@ activitydata3$daytype<-ifelse(activitydata3$weekday=='Saturday'|activitydata3$we
 stepsperday<-aggregate(steps ~ interval+daytype, data=activitydata3, FUN=mean, action=na.omit)
 
 plot4<-ggplot(stepsperday, aes(interval, steps))
-plot4+geom_line(col="darkred")+ggtitle("Average steps per time interval: weekdays vs. weekends")+xlab("Time")+ylab("Steps")+theme(plot.title = element_text(face="bold", size=12))+facet_grid(daytype ~ .)
+plot5<-plot4+geom_line(col="darkred")+ggtitle("Average steps per time interval: weekdays vs. weekends")+xlab("Time")+ylab("Steps")+theme(plot.title = element_text(face="bold", size=12))+facet_grid(daytype ~ .)
+
   
-ggsave("plot4.png",plot=plot4)
+ggsave("plot4.png",plot=plot5)
 
 ```
 Comparing the two graphs it does look like there is a difference between the daily average activity levels on the weekends versus weekdays probably due to people having more free time and daytime hours to get outside and away from their desks.
