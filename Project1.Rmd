@@ -2,7 +2,9 @@
 title: "Project1"
 author: "Rhay"
 date: "2/22/2021"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -56,7 +58,10 @@ data2sum<-aggregate(x=activitydata$steps, by =list(activitydata$date), FUN=sum)
 data2sum
 
 #create a histogram of the steps each day
-hist(data2sum$x, main="Total Number of Steps Each Day")
+plot1<-hist(data2sum$x, main="Total Number of Steps Each Day")
+png(filename="plot1.png")
+plot(plot1)
+dev.off()
 
 #calculate the mean and ignore the NAs
 data2summean<-mean(data2sum$x, na.rm = TRUE)
@@ -91,6 +96,7 @@ plot2<-ggplot(avgactivitydata, aes(x = interval, y = steps, color = steps)) +
 
 
 plot2
+ggsave("plot2.png",plot=plot2)
 
 #which 5 min. interval contains max num. steps
 maxsteps<-avgactivitydata[which.max(avgactivitydata$steps),]
@@ -128,6 +134,7 @@ plot3<- ggplot(totalstepsday2, aes(x = steps)) +
        x = "Number of steps per day", y = "Interval")
 
 plot3
+ggsave("plot3.png",plot=plot3)
 
 #calc mean, median for both activitydata2 
 meanactivitydata2<-mean(totalstepsday2$steps)
@@ -156,10 +163,10 @@ activitydata3$daytype<-ifelse(activitydata3$weekday=='Saturday'|activitydata3$we
 #graph weekdays versus weekends
 stepsperday<-aggregate(steps ~ interval+daytype, data=activitydata3, FUN=mean, action=na.omit)
 
-plot5<-ggplot(stepsperday, aes(interval, steps))
-plot5+geom_line(col="darkred")+ggtitle("Average steps per time interval: weekdays vs. weekends")+xlab("Time")+ylab("Steps")+theme(plot.title = element_text(face="bold", size=12))+facet_grid(daytype ~ .)
+plot4<-ggplot(stepsperday, aes(interval, steps))
+plot4+geom_line(col="darkred")+ggtitle("Average steps per time interval: weekdays vs. weekends")+xlab("Time")+ylab("Steps")+theme(plot.title = element_text(face="bold", size=12))+facet_grid(daytype ~ .)
   
-  
+ggsave("plot4.png",plot=plot4)
 
 ```
 Comparing the two graphs it does look like there is a difference between the daily average activity levels on the weekends versus weekdays probably due to people having more free time and daytime hours to get outside and away from their desks.
